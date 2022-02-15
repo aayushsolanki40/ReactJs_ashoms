@@ -146,7 +146,7 @@ const Newspage = () => {
                                 <Skeleton variant="rectangular" style={{"borderRadius":"10px"}} height={230} />
                                 </Grid>
                                 )
-                               }) ):(<h4>No News Found.</h4>)):(News.map(function (value, index, array) {
+                               }) ):("")):(News.map(function (value, index, array) {
                             return (
                             <Newsitem size={3} title={value.source}
                                 description={value.title}

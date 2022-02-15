@@ -24,12 +24,13 @@ import Aboutus from './Pages/Aboutus';
 import Contactus from './Pages/Contact_us';
 import { getUserToken } from './API/LocalStore';
 import PaymentGateway from './Pages/PaymentGateway';
+import { fetchDataCompaniesDB } from './webSQl';
+
 
 const App = () => {
-    
     let var_token = null;
     console.log("token : "+getUserToken());
-
+    fetchDataCompaniesDB();
     if ((getUserToken() !== null) &&(getUserToken() !==  undefined) ) {
         var_token = getUserToken();
     }   

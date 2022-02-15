@@ -12,9 +12,7 @@ import {deleteCommentApi, getForumComments, timeSince} from '../API/Userapis';
 const Chatlist = (props) => {
     console.log(props.chatdata);
     const {profile_pic, comment, created, id, in_reply, isMine, name, replied_to, replies} = props.chatdata;
-    const {ForumData, setForumComments, setisEditing, setEditingText, setEditingCommentId} = props;
-
-
+    const {ForumData, setForumComments, setisEditing, setEditingText, setEditingCommentId, setReplayCommentId, setReplayText, setisReplaying} = props;
     var created_at = new Date(created);
     created_at.setHours(created_at.getHours() + 5);
     created_at.setMinutes(created_at.getMinutes() + 30);
@@ -41,10 +39,10 @@ const Chatlist = (props) => {
     console.log("Editing id : "+id);
     setEditingCommentId(id);
     handleClose(e);
-    getForumComments(ForumData.id).then(meta => {
-        ForumData.total_comments = meta.length;
-        setForumComments(meta)
-    })
+    // getForumComments(ForumData.id).then(meta => {
+    //     ForumData.total_comments = meta.length;
+    //     setForumComments(meta)
+    // })
     }
 
   const deleteComment = (e) =>{
@@ -76,6 +74,11 @@ const Chatlist = (props) => {
     prevOpen.current = open;
   }, [open]);
 
+  const handlereplay = () =>{
+    setisReplaying(true);
+    setReplayCommentId(id);
+    setReplayText("Reply: "+name+"- ");
+  }
 
     return (
         <>
@@ -98,7 +101,7 @@ const Chatlist = (props) => {
                    </div>
                    <div className="col-2 ">
                        <div className="row">
-                       <IconButton
+                      {(isMine)?<IconButton
                             style={{"transform":"rotateZ(90deg)", "height":"5px"}}
                             ref={anchorRef}
                             id="composition-button"
@@ -107,11 +110,11 @@ const Chatlist = (props) => {
                             aria-haspopup="true"
                             onClick={handleToggle}
                         >
-                      <MoreIcon />
-                    </IconButton>
+                        <MoreIcon />
+                        </IconButton>:""}
                        </div>
                         <div className="row  commentreplaybox">
-                            <button className='commentreplaybtnn'><span className='commentreplaybtn'>Reply</span></button>
+                            <button className='commentreplaybtnn' onClick={handlereplay}><span className='commentreplaybtn'>Reply</span></button>
                         </div>
                         <div className="row comment_timing_txt_box">
                             <span className='comment_timing_txt'>{created_at}</span>

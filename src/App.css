@@ -1247,12 +1247,23 @@ div[data-testid="otp-input-root"] input:focus {
 }
 
 .chatlist_container {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.chatlistdivouter {
     margin-top: 15px;
     margin-bottom: 15px;
 }
 
 .chat_list_message {
     color: #A2A2A2;
+}
+
+.chat_list_username {
+    font-size: 13px;
+    margin-top: 5px;
+    color: #333;
 }
 
 .commentinput {
@@ -1269,6 +1280,20 @@ div[data-testid="otp-input-root"] input:focus {
     align-items: center;
     height: 100%;
     padding-left: 10px;
+}
+
+.morerepliesdiv {
+    height: 16px;
+    margin-bottom: 5px;
+}
+
+.morerepliestxt {
+    position: absolute;
+    line-height: 0.5;
+    margin-left: 16px;
+    text-decoration: underline;
+    color: #555;
+    font-size: 12px;
 }
 
 .addcommentinput {

@@ -15,6 +15,7 @@ import CompanySelect from '../components/CompanySelect';
 import Backbutton from '../components/Backbutton';
 import { Button } from '@mui/material';
 import 'bootstrap';
+import { companiesPaginationIndexed, getCompanies } from '../webSQl';
 
 
 const Homepage = (props) => {
@@ -32,7 +33,8 @@ const Homepage = (props) => {
    const [hasmoreCompanies, sethasmoreCompanies] = useState(true);
    const [isSearching, setisSearching] = useState(false);
    const [isDocumentDialog, setisDocumentDialog] = useState(false);
-   console.log("dsd");
+   
+   console.log(Companies);
 
    const controller = new AbortController();
    const { signal } = controller;
@@ -42,14 +44,18 @@ const Homepage = (props) => {
         getCountries().then(meta => {
             setCountries(meta)
             console.log(meta);
-        });   
+        }); 
+        // companiesPaginationIndexed(0).then(meta => setCompanies(meta.data));   
         // console.log(getCompaniesByCountry(0, 0, 0));
-        getCompaniesByCountry(0, 0, 0, signal).then(meta => {
-            console.log(meta );
-            setCompanies(meta.data)
-            console.log(meta.data);
-            setIsFetching(false);
-        });   
+        // getCompaniesByCountry(0, 0, 0, signal).then(meta => {
+        //     console.log(meta );
+        //     setCompanies(meta.data)
+        //     console.log(meta.data);
+        //     setIsFetching(false);
+        // });   
+        // getCompanies().then(meta=>{
+        //     setCompanies(meta)
+        // })
         window.scrollTo(0, 0);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -68,7 +74,8 @@ const Homepage = (props) => {
 
     function fetchCompanies(){
         setisSearching(true);
-        getCompaniesByCountry(selectedCountry, currentCompaniesPosition, SearchText, signal).then(meta => {
+        // companiesPaginationIndexed(currentCompaniesPosition).then(meta =>{ 
+        companiesPaginationIndexed(selectedCountry, SearchText, currentCompaniesPosition).then(meta => {
             setCompanies([...Companies, ...meta.data]);
             setcurrentCompaniesPosition(currentCompaniesPosition+1);
             console.log("CP : "+currentCompaniesPosition);
@@ -150,7 +157,9 @@ const Homepage = (props) => {
                             label={value.country}
                             variant={(selectedCountry==value.country)?"":"outlined"}
                             />)
-                            }))
+                            })
+                            
+                            )
                         }
                         </div>
                         </div>
@@ -173,13 +182,16 @@ const Homepage = (props) => {
                       
                              <Grid container spacing={1}>
                                { 
-                              ((Companies.length==0)&&(!isFetching&&!isSearching))?(<h5>No Companies Found.</h5> ):(
+                              ((Companies.length==0)&&(!isFetching&&!isSearching))?("" ):(
                                 Companies.map(function (value, index, array) {
                                     return (
                                <Grid onClick={()=>setSelectedCompanyData(value)}  data-toggle="modal" data-target="#ForumOrNewsPopup" key={index} item md={2} xs={6} height={260}>        
                                    <Companylistcard  CompanyImage ={value.image} GoToReports={GoToReports} GoToNews={GoToNews} CompanyName={value.Company_Name} CompanyId={value.id} />
                                </Grid>
-                               )}))
+                               )}
+                               
+                               )
+                               )
                                 }
                                 {
                                   (isFetching)?(Array.from({ length: 12 }, (x, i) => { return (

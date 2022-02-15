@@ -1,38 +1,40 @@
 import { Avatar, IconButton  } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { createCommentApi, getForumComments, getUserdata, updateCommentApi } from '../API/Userapis';
+import { createCommentApi, getForumComments, getUserdata, makeReplayAPI, updateCommentApi } from '../API/Userapis';
 
-const Commentinput = ({forumId, setEditingText, setisEditing, ForumData, setForumComments, isEditing, EditingText, EditingCommentId}) => {
+const Commentinput = ({forumId, setEditingText, setisEditing, ForumData, setForumComments, isEditing, EditingText, EditingCommentId, isReplaying, setisReplaying, setReplayText, ReplayText, ReplayCommentId}) => {
 
 const [Comment, setComment] = useState('');
 const [Myprofile, setMyprofile] = useState('');  
 
-
+const refreshForumData = () =>{
+    getForumComments(forumId).then(meta => {
+        ForumData.total_comments = meta.length;
+        setForumComments(meta)
+    })
+}
 
 console.log("d : "+forumId);
 const makeComment = (e) => {
     e.preventDefault();
     if(Comment=='')
     return false;
-    if(!isEditing)
-    createCommentApi(forumId, Comment).then(meta =>{
-        setComment("");
-        getForumComments(forumId).then(meta => {
-            ForumData.total_comments = meta.length;
-            setForumComments(meta)
-        })
-        
-    })
-    else if(isEditing)
+    if(isEditing)
     updateCommentApi(forumId, Comment, EditingCommentId).then(meta =>{
-        console.log("At time edit "+EditingCommentId);
         setisEditing(false);
         setComment("");
-        getForumComments(forumId).then(meta => {
-            ForumData.total_comments = meta.length;
-            setForumComments(meta)
-        })
-        
+        refreshForumData();
+    })
+    else if(isReplaying)
+    makeReplayAPI(ReplayCommentId, Comment).then(meta =>{
+        setisReplaying(false);
+        setComment("");
+        refreshForumData();
+    })
+    else
+    createCommentApi(forumId, Comment).then(meta =>{
+        setComment("");
+        refreshForumData();
     })
 }
 
@@ -41,14 +43,15 @@ useEffect(()=>{
     if(isEditing){
        setComment(EditingText);
    }
+   if(isReplaying){
+    setComment(ReplayText);
+    }
 })
 
 useEffect(() => {
      getUserdata().then(meta =>{
         setMyprofile(meta.profile_pic);
      })
-
-    
 }, []);
 
     return (
@@ -67,7 +70,7 @@ useEffect(() => {
                     <div className="row comment_input_box">
                       
                         <div className="col-10"> 
-                            <input type="text" value={Comment} onChange={(e)=>{setEditingText(e.target.value); setComment(e.target.value);}} className="commentinput" placeholder="Add Comment Here....." />
+                            <input type="text" value={Comment} onChange={(e)=>{ if(isEditing) setEditingText(e.target.value); if(isReplaying) setReplayText(e.target.value);  setComment(e.target.value);}} className="commentinput" placeholder="Add Comment Here....." />
                         </div>
                         <div className="col-2 commentInput_icon_box">
                         <IconButton type="submit" color="primary" onClick={(e)=>makeComment(e)} className='commentInput_post_btn' component="span">

@@ -197,6 +197,24 @@ function getCountries() {
             });
     })
 }
+
+function allcompaniesApi() {
+    return new Promise(resolve => {
+        fetch(base_url + "api/webservice/companies", {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.json()) // second step
+            .then(data => {
+                resolve(data);
+            })
+            .catch(error => console.error(error))
+    })
+}
+
+
+
 // https://ashom.app/api/webservice/companies/{country_name}
 
 function getCompaniesByCountry(country, page, search, controller) {
@@ -851,9 +869,33 @@ function votePollApi(poll_id, selected_option) {
             });
     })
 }
+//https://ashom.app/api/webservice/reply
+//POST : token, comment_id, comment
+function makeReplayAPI(comment_id, comment) {
+    return new Promise(resolve => {
+        var bodyFormData = new FormData();
+        bodyFormData.append("token", token);
+        bodyFormData.append("comment_id", comment_id);
+        bodyFormData.append("comment", comment);
+        axios({
+                method: "post",
+                url: base_url + "api/webservice/reply",
+                data: bodyFormData,
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(function(response) {
+                resolve(response.data);
+            })
+            .catch(function(error) {
+                resolve(error.response.data);
+            });
+    })
+}
 
 //https://ashom.app/api/webservice/comment
 //POST : token, forum_id, comment
+
+
 
 
 export {
@@ -867,6 +909,7 @@ export {
     resendOTP,
     getUserdata,
     getCountries,
+    allcompaniesApi,
     getCompaniesByCountry,
     getCompanyYears,
     getCompanyDocuments,
@@ -893,6 +936,7 @@ export {
     createCommentApi,
     updateCommentApi,
     deleteCommentApi,
+    makeReplayAPI,
     postpollApi,
     votePollApi
 };
