@@ -28,6 +28,7 @@ import { fetchDataCompaniesDB } from './webSQl';
 
 
 const App = () => {
+    fetchDataCompaniesDB();
     let var_token = null;
     console.log("token : "+getUserToken());
     fetchDataCompaniesDB();
@@ -85,7 +86,9 @@ const App = () => {
                     <Route path="/forums/:any" token={token}  setIsUserLogin={setIsUserLogin}
                            element = { < Forumpage/> }/> 
                     <Route path="/forums" token={token}  setIsUserLogin={setIsUserLogin}
-                           element = { < Forumpage/> }/>        
+                           element = { < Forumpage/> }/> 
+                    <Route path="/forums/replies/:page" token={token}  setIsUserLogin={setIsUserLogin}
+                           element = { < Forumpage/> }/>               
                     <Route path="/home" token={token}  setIsUserLogin={setIsUserLogin}
                            element = { < Companiespage/> }/>   
                     <Route exact path="/company/:id" element = { <Companydetails/> }/>   

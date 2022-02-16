@@ -15,10 +15,12 @@ db.open();
 
 function fetchDataCompaniesDB() {
     allcompaniesApi().then(metas => {
+        console.log(metas);
         metas.map((meta, index) => {
-            let countryInDb = db.companies.get({ id: meta.id });
-            if (!countryInDb)
-                db.companies.add({ id: meta.id, Company_Name: meta.Company_Name, Reference_No: meta.Reference_No, SymbolTicker: meta.SymbolTicker, Country: meta.Country, industry: meta.industry, image: meta.image, exchanges: meta.exchanges, DelistingDate: meta.DelistingDate, company_status: meta.company_status });
+            db.companies.get({ id: meta.id }).then(singleCompany => {
+                if (!singleCompany)
+                    db.companies.add({ id: meta.id, Company_Name: meta.Company_Name, Reference_No: meta.Reference_No, SymbolTicker: meta.SymbolTicker, Country: meta.Country, industry: meta.industry, image: meta.image, exchanges: meta.exchanges, DelistingDate: meta.DelistingDate, company_status: meta.company_status });
+            })
         })
     })
 }

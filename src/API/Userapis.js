@@ -892,6 +892,23 @@ function makeReplayAPI(comment_id, comment) {
     })
 }
 
+//GET : https://ashom.app/api/webservice/commentreplies/{comment_or_reply_id}
+function getCommentReplies(comment_id) {
+    return new Promise(resolve => {
+        axios({
+                method: "get",
+                url: base_url + "api/webservice/commentreplies/" + comment_id + "/" + token,
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(function(response) {
+                resolve(response.data);
+            })
+            .catch(function(error) {
+                resolve(error.response.data);
+            });
+    })
+}
+
 //https://ashom.app/api/webservice/comment
 //POST : token, forum_id, comment
 
@@ -936,6 +953,7 @@ export {
     createCommentApi,
     updateCommentApi,
     deleteCommentApi,
+    getCommentReplies,
     makeReplayAPI,
     postpollApi,
     votePollApi

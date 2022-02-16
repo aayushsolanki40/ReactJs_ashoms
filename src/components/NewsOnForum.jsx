@@ -20,6 +20,8 @@ const Newsonforum = () => {
         });  
     }
 
+    console.log("Location : "+window.location.pathname.split('/')[3]);
+
 
     const [currentNewsPosition, setcurrentNewsPosition] = useState(0);
     const [News, setNews] = useState([]); 

@@ -1653,6 +1653,17 @@ div[data-testid="otp-input-root"] input:focus {
     min-height: 0vh;
 }
 
+.backtoprevioustextdiv {
+    height: 30px;
+}
+
+.backtoprevioustext {
+    font-size: 12px;
+    border-bottom: 1px solid rgb(102, 101, 101);
+    padding-bottom: 0.5px;
+    color: rgb(102, 101, 101);
+}
+
 @media (min-width: 768px) {}
 
 

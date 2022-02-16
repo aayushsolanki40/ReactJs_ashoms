@@ -85,17 +85,17 @@ const Forumpost = (props) => {
             <CardActions>
                 <div className="forumactionbtns">
                 <IconButton onClick={handleComment}>
-                    <img style={{"height":"25px"}} srcSet='./assets/icons/bubble.svg'/>
+                    <img style={{"height":"25px"}} srcSet='/assets/icons/bubble.svg'/>
                 </IconButton>{total_messages}</div>
                 <div className="forumactionbtns">
                 <IconButton onClick={handleLike}>
-                    {(Liked)?<img style={{"height":"25px"}} srcSet='./assets/icons/Thumbup_fill.svg'/>
-                            :<img style={{"height":"25px"}} srcSet='./assets/icons/Thumbsup.svg'/>}
+                    {(Liked)?<img style={{"height":"25px"}} srcSet='/assets/icons/Thumbup_fill.svg'/>
+                            :<img style={{"height":"25px"}} srcSet='/assets/icons/Thumbsup.svg'/>}
                 </IconButton>{TotalLiked}</div>
                 <div className="forumactionbtns">
                 <IconButton onClick={handleDislike}>
-                    {(Disliked)?<img style={{"height":"25px"}} srcSet='./assets/icons/ThumbsDown_fill.svg'/>
-                            :<img style={{"height":"25px"}} srcSet='./assets/icons/thumbdown.svg'/>}
+                    {(Disliked)?<img style={{"height":"25px"}} srcSet='/assets/icons/ThumbsDown_fill.svg'/>
+                            :<img style={{"height":"25px"}} srcSet='/assets/icons/thumbdown.svg'/>}
                 </IconButton>{TotalDisliked}</div>
                 <div className="forumactionbtns">
                 <IconButton onClick={handleShare}>

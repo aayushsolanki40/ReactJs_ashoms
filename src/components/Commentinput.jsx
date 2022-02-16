@@ -2,7 +2,7 @@ import { Avatar, IconButton  } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { createCommentApi, getForumComments, getUserdata, makeReplayAPI, updateCommentApi } from '../API/Userapis';
 
-const Commentinput = ({forumId, setEditingText, setisEditing, ForumData, setForumComments, isEditing, EditingText, EditingCommentId, isReplaying, setisReplaying, setReplayText, ReplayText, ReplayCommentId}) => {
+const Commentinput = ({forumId, setEditingText, setisEditing, ForumData, setForumComments, isEditing, EditingText, EditingCommentId, isReplaying, setisReplaying, setReplayText, ReplayText, ReplayCommentId, isViewingReplies, handleRefreshReplies, defaultReplieID, setReplayCommentId}) => {
 
 const [Comment, setComment] = useState('');
 const [Myprofile, setMyprofile] = useState('');  
@@ -12,6 +12,7 @@ const refreshForumData = () =>{
         ForumData.total_comments = meta.length;
         setForumComments(meta)
     })
+    handleRefreshReplies();
 }
 
 console.log("d : "+forumId);
@@ -25,11 +26,13 @@ const makeComment = (e) => {
         setComment("");
         refreshForumData();
     })
-    else if(isReplaying)
+    else if(isReplaying || isViewingReplies)
     makeReplayAPI(ReplayCommentId, Comment).then(meta =>{
         setisReplaying(false);
         setComment("");
         refreshForumData();
+        if(isViewingReplies)
+        setReplayCommentId(defaultReplieID);
     })
     else
     createCommentApi(forumId, Comment).then(meta =>{
