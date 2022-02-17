@@ -53,7 +53,7 @@ const Settingspage = () => {
 
     const menuItems_account = [{ "name": "Change Password", "icon": "padlock.png", "link":"/changepass"},
         { "name": "Subscription Level", "icon": "subscribe.png", "link":""},
-        { "name": "Selected Countries", "icon": "tick.png", "link":""},
+        { "name": "Selected Companies", "icon": "tick.png", "link":"/selectedcompanies"},
         { "name": "Logout", "icon": "logout.png", "link":"/logout"}];
 
     return (
@@ -137,7 +137,7 @@ const Settingspage = () => {
                          return (
                         <div className="row">
                             <div className="col-md-12">
-                               {(!(((value.name)=='Change Password')&&(Login_type!="normal"))||(((value.name)=='Change Password')))?(  
+                               {((((value.name)!='Change Password')&&(Login_type!="normal")))?(  
                                     <div className="row myprofile_menu">
                                         <div className="col-2 myprofile_menu_img_div">
                                               <img className="myprofile_menu_img" alt="Terms and Conditions" srcSet={"/assets/icons/myprofile/"+value.icon} />
@@ -167,8 +167,7 @@ const Settingspage = () => {
                                         }
                                         
                                     </div>) 
-                                            :("") }
-
+                                :("") }
                             </div>
                         </div>
                         )

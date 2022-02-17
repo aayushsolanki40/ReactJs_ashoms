@@ -17,7 +17,6 @@ import { Button } from '@mui/material';
 import 'bootstrap';
 import { companiesPaginationIndexed, getCompanies } from '../webSQl';
 
-
 const Homepage = (props) => {
 
    const [Countries, setCountries] = useState([]); 
@@ -137,7 +136,7 @@ const Homepage = (props) => {
                     <div className="row section_divider">
                         <div className="col-md-12">
                         <label className='labelasheading'>Countries</label><br/>  
-                        <div className='contrieslist_div'> 
+              <div className='contrieslist_div'> 
                         <Chip
                             onClick={()=>changeCountry(0)}
                             avatar={<PublicIcon/>}

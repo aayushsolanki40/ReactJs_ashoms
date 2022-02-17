@@ -3,15 +3,22 @@ import { Grid } from '@material-ui/core';
 import { Card, CardMedia, CardContent, Typography, Link } from '@mui/material';
 import {timeSince} from '../API/Userapis';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { showsharemodal } from '../reducers/ShareBtnModalReducer';
+import {setnewssharedata} from '../reducers/NewsShareReducer';
 
 const Newsitem = (props) => {
-const {image, title, description, url_link, size, created} = props;
-const navigate = useNavigate();
-const GoToForum = (e) =>{
+    const {image, title, description, url_link, size, created} = props;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     
-    navigate('/financials');
-}
-
+    const sharetoforum = (e) =>{
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(setnewssharedata({active:true, title : description, link : url_link, image : image}));
+        navigate('/forums/addforum');
+    }
+   
     return (
         <>
   
@@ -19,12 +26,14 @@ const GoToForum = (e) =>{
         <a style={{"textDecoration":"none"}} href={url_link}>  
         <div className="newsItemIcons">
             <div className="newsItemIconsdIV">
-                <div className="newsItemIconsLink"  href='/forum' onClick={(e)=>{
-                    e.stopPropagation();
-                    GoToForum();}}>
+                <div className="newsItemIconsLink"  href='/forum' onClick={(e)=>sharetoforum(e)}>
                     <img  alt="" srcSet="./assets/icons/forum_icon_news.svg" />
                 </div>
-                <div className="newsItemIconsLink" to="./login"  href='/news'>
+                <div className="newsItemIconsLink" to="./login"  href='/news'
+               onClick={(e)=>{
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dispatch(showsharemodal(true));}}>
                 <img style={{"width":"18px", "height":"18px"}} src="./assets/icons/share.svg" className="githubIcon" />
                 </div>    
             </div>

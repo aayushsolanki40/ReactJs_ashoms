@@ -15,7 +15,6 @@ db.open();
 
 function fetchDataCompaniesDB() {
     allcompaniesApi().then(metas => {
-        console.log(metas);
         metas.map((meta, index) => {
             db.companies.get({ id: meta.id }).then(singleCompany => {
                 if (!singleCompany)

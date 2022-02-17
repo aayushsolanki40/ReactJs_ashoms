@@ -1664,6 +1664,10 @@ div[data-testid="otp-input-root"] input:focus {
     color: rgb(102, 101, 101);
 }
 
+.modal-90w {
+    min-width: 90% !important;
+}
+
 @media (min-width: 768px) {}
 
 

@@ -3,7 +3,9 @@ import { CardActionArea, IconButton, Alert } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import { getUserdata, postForumApi, postpollApi } from '../API/Userapis';
 import Backbutton from './Backbutton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {setnewssharedata} from '../reducers/NewsShareReducer';
 
 const Addforumlayout = () => {
     
@@ -50,6 +52,8 @@ const Addforumlayout = () => {
         }
     }
 
+    const shareForum = useSelector((state)=>state.sharenewsreducer.value);
+
     function clearMessages(){
         setContentTextErr("");
         setForumErrMessage('');
@@ -66,6 +70,7 @@ const Addforumlayout = () => {
                     setForumImage('');
                     setForumimageData('');
                     setsuccessMessage(meta.message);
+                    navigate("/forums");
                 }
                 else{
                     seterrorMessage(meta.message);
@@ -80,7 +85,6 @@ const Addforumlayout = () => {
     const removeimage = () =>{
         setForumImage("");
         setForumimageData("");
-
     }
 
     const handlePollSubmit = () =>{
@@ -133,11 +137,23 @@ const Addforumlayout = () => {
         setisPollThirdInpShow(false);
     }
 
+    const dispatch = useDispatch();
     useEffect(() => {
+        window.scrollTo(0, 0);
         getUserdata().then(meta => {
             setUserdata(meta);
         });    
     }, []);
+
+    useEffect(() => {
+        if(shareForum.active){
+            setSelectedTab("compose");
+            setContentText(shareForum.title+"@"+shareForum.link)
+            setForumImage(shareForum.image)
+            setForumimageData(shareForum.image)
+        }
+
+    }, [shareForum]);
 
     return (
         <>

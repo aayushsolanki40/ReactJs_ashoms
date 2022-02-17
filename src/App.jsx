@@ -25,9 +25,21 @@ import Contactus from './Pages/Contact_us';
 import { getUserToken } from './API/LocalStore';
 import PaymentGateway from './Pages/PaymentGateway';
 import { fetchDataCompaniesDB } from './webSQl';
-
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { login } from './reducers/UserdataReducer';
+import Sharebtnsmodal from './popup/ShareBtnsModal';
+import Popupmodals from './popup/PopupModals';
 
 const App = () => {
+    const dispatch = useDispatch();
+    useEffect(() => { 
+    dispatch(login({name:"Aayush Solanki", age:40, email:"ayush@gmail.com"}))
+    }, []);
+
+    const user = useSelector((state)=>state.user.value);
+    console.log(user);
+
     fetchDataCompaniesDB();
     let var_token = null;
     console.log("token : "+getUserToken());
@@ -100,6 +112,7 @@ const App = () => {
                 <Route exact path="/contact_us" element={<Contactus />} />
                 </Routes>
             {(IsUserLogin && ((url_location == '/') || (url_location == '/home') || (url_location == '/forums/addforum') || (url_location == '/financials') || (url_location == '/forums') || (url_location == '/news') || (url_location === m_r))) ? (<Footer/>):""}
+            <Popupmodals/>
         </div>
     );
 }

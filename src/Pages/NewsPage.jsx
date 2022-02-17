@@ -8,6 +8,7 @@ import {getCountries, getFinancialNews, getFinancialNewsPost} from '../API/Usera
 import PublicIcon from '@mui/icons-material/Public';
 import { getFlag } from '../API/LocalStore';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Newspage = () => {
     const [currentNewsPosition, setcurrentNewsPosition] = useState(0);
@@ -17,6 +18,7 @@ const Newspage = () => {
     const [hasmorenews, sethasmorenews] = useState(true);
     const [SearchText, setSearchText] = useState('');
     const [isSearching, setisSearching] = useState(false);
+    const shareBtnModalShow = useSelector((state)=>state.sharebtnmodal.modalShow);
 
     function changeCountry(country){
         setcurrentNewsPosition(0)
@@ -24,13 +26,15 @@ const Newspage = () => {
         getFinancialNewsPost(0, country, "", "").then(meta => {
             setNews(meta.data)
             setcurrentNewsPosition(1);
-            console.log(meta);
         });  
     }
 
-    function fetchNews(){
+    function fetchNews(searchext=0){
         setisSearching(true);
-        getFinancialNewsPost(currentNewsPosition, selectedCountry, "", SearchText).then(meta => {
+        getFinancialNewsPost(currentNewsPosition, selectedCountry, "", searchext).then(meta => {
+            if(((meta.data).length==0))
+            setNews([]);
+            else
             setNews([...News, ...meta.data]);
             if(meta.metadata.total_pages==meta.metadata.current_page)
             sethasmorenews(false);
@@ -41,21 +45,19 @@ const Newspage = () => {
     }
 
     const handleSearch = (Searchvalue) =>{
+        setSearchText(Searchvalue);
         setNews([]);
-        fetchNews();
         setcurrentNewsPosition(0);
+        fetchNews(Searchvalue);
     }
     
-    console.log("dsd");
      useEffect(() => {
          getCountries().then(meta => {
              setCountries(meta)
-             console.log(meta);
          });   
          getFinancialNews(currentNewsPosition).then(meta => {
             setNews(meta.data);
             setcurrentNewsPosition(currentNewsPosition+1)
-            console.log(meta);
         });      
         
         window.addEventListener('scroll', handleScroll);
@@ -75,8 +77,7 @@ const Newspage = () => {
        setIsFetching(true);
        }
      }
-    console.log(News);
-     
+      
     const navigate = useNavigate();
     const handleBack = () =>{
         navigate(-1);
@@ -132,7 +133,7 @@ const Newspage = () => {
                             <img className='search_icon_r' alt="" srcSet="/assets/icons/search_icon_light.svg" />
                             </div>
                             <div className="col-10 col-md-11">
-                            <input onChange={(e)=>setSearchText(e.target.value)} onKeyUp={(e)=>handleSearch(e.target.value)} value={SearchText} className='search_input_NewsPage ' placeholder='Search' />
+                            <input onChange={(e)=>handleSearch(e.target.value)} value={SearchText} className='search_input_NewsPage ' placeholder='Search' />
                             </div>
                         </div>
                         </div>
@@ -173,6 +174,7 @@ const Newspage = () => {
                     </div>
                 </div>
             </div>
+            
         </div>
     );
 }

@@ -10,7 +10,6 @@ import 'bootstrap';
 const Popupforumornews = (props) => {
     const navigate = useNavigate();
     const {c_data} =props;
-    console.log(c_data);
     const Company_name = c_data.Company_Name;
     const Company_image = c_data.image;
     const Company_id = c_data.id;
