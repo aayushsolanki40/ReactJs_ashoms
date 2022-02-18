@@ -136,11 +136,11 @@ const Pollpost = (props) => {
                 <Avatar className='forumpostitem_avatar'  alt={(username)?username[0]:''} src={profile_img} />
             </div>
             <div className="col-md-11">
-            <CardContent style={{"padding":"0", "paddingTop":"10px", "paddingLeft":"4px"}}>
-                <Typography variant='h6'>{username}</Typography>
-                <Typography style={{"color":"grey", "fontSize":"12px"}} variant='span'>{time}</Typography><br/>
-                <Typography style={{"display": "-webkit-box", "WebkitLineClamp": "2", "WebkitBoxOrient": "vertical", "textOverflow": "ellipsis", "overflow": "hidden"}} variant='span'>{content_txt}</Typography>
-                <Typography style={{"display": "-webkit-box", "WebkitLineClamp": "2", "WebkitBoxOrient": "vertical", "textOverflow": "ellipsis", "overflow": "hidden"}} variant='span'><a target="_black"  style={{"color":"rgb(80 185 242)"}} href={url_link}>{url_link}</a></Typography>
+            <CardContent  style={{"padding":"0", "paddingTop":"10px", "paddingLeft":"4px"}}>
+                <Typography variant='h6' style={{"height": "13px", "fontSize":"15px"}}>{username}</Typography>
+                <Typography style={{"color":"grey", "fontSize":"11px"}} variant='span'>{time}</Typography><br/>
+                <Typography style={{"fontSize":"13px", "display": "-webkit-box", "WebkitLineClamp": "2", "WebkitBoxOrient": "vertical", "textOverflow": "ellipsis", "overflow": "hidden"}} variant='span'>{content_txt}</Typography>
+                <Typography className='forumpost_link' variant='span'><a target="_black"  style={{"color":"rgb(80 185 242)"}} href={url_link}>{url_link}</a></Typography>
                 
             </CardContent> 
             <CardContent height="300"> 

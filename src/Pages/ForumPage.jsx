@@ -8,9 +8,11 @@ import { CardActionArea } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 import Addforumlayout from '../components/AddForumLayout';
 import { Button } from '@mui/material';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
+import { useDispatch } from 'react-redux';
 
 const Forumpage = () => {
-
+    const dispatch = useDispatch();
     const [ForumDetailId, setForumDetailId] = useState('');
     const [IsAddIconDisplay, setIsAddIconDisplay] = useState(true);
     const [ForumSearchText, setForumSearchText] = useState('');
@@ -19,6 +21,8 @@ const Forumpage = () => {
     // alert(Intl.DateTimeFormat().resolvedOptions().timeZone + " " + (new Date().getTimezoneOffset()/60))
     var offsetTimeHours = new Date().getTimezoneOffset() / 60;
     useEffect(() => {
+        window.scrollTo(0, 0);
+        dispatch(setheadermenuData({currentpath:'/forums', headerfootershow:true}));
         getForums().then((data)=>{
                 console.log(data);
                 setForums(data);
@@ -68,6 +72,13 @@ const Forumpage = () => {
         navigate(-1);
     }
 
+    const handlerefreshfourms = () =>{
+        getForums().then((data)=>{
+            setForums(data);
+            setForumAvailable(data);
+        })    
+    }
+
     return (
         <>
         
@@ -79,11 +90,11 @@ const Forumpage = () => {
                       <div className="col-md-7 card section_divider">
                       {(url_bud!=='addforum')?(<div className="row">
                             <CardActionArea onClick={addforumhandlebtn} className="addforumbtn">
-                                <img srcSet="/assets/icons/addforumbtn.svg"/>
+                                <img style={{"height":"inherit", "filter": "drop-shadow(1px 1px 8px #999)"}} srcSet="/assets/icons/addforumiconcircle.png"/>
                             </CardActionArea>
                        </div>):("")}    
                         {
-                        (url_bud=='addforum')?(<Addforumlayout/>):    
+                        (url_bud=='addforum')?(<Addforumlayout handlerefreshfourms={handlerefreshfourms}/>):    
                         ((ForumDetailId=='')?
                         (<> 
                         <div className="row">
@@ -104,7 +115,7 @@ const Forumpage = () => {
                             console.log(value.forum_type==="forum");
                             return (
                                 (value.forum_type==="forum")?(<Forumpost key={index} setForumDetailId={setForumDetailId} forumalldata={value} form_id={value.id} username={value.first_name+' '+value.last_name} profile_img={value.posted_by_profile} 
-                                    time={timeSince(new Date(value.created).setTime(new Date(value.created).getTime() + ((new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000)))} content={value.content} content_image={value.content_image}
+                                    time={timeSince(new Date(value.created).setTime(new Date(value.created).getTime() - ((new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000)))} content={value.content} content_image={value.content_image}
                                     url_link={"url"} total_messages={value.total_comments} 
                                     total_likes={value.total_liked} total_dislikes={value.total_disliked} 
                                     total_shares={value.share_count} 

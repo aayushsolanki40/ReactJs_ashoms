@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CompanySelect from '../components/CompanySelect';
+import { useDispatch } from 'react-redux';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
+
 const Companiespage = () => {
     const GoToCompany = (e) =>{
         e.preventDefault();
@@ -10,7 +13,12 @@ const Companiespage = () => {
         e.preventDefault();
         window.location.replace('/news');
     }
- 
+    
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setheadermenuData({currentpath:'/home', headerfootershow:true}));
+    }, []);
+
     return (
         <>
            

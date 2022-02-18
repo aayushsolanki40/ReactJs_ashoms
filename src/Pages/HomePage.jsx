@@ -10,15 +10,19 @@ import Companylistcard from '../components/CompanyListCard';
 import { useNavigate } from 'react-router-dom';
 import Companyreportnews from '../popup/CompanyReportNews';
 import Popupforumornews from '../popup/PopupForumOrNews';
+import { format } from 'date-fns';
 import { getFlag } from '../API/LocalStore';
 import CompanySelect from '../components/CompanySelect';
 import Backbutton from '../components/Backbutton';
 import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import 'bootstrap';
-import { companiesPaginationIndexed, getCompanies } from '../webSQl';
+import { companiesPaginationIndexed, getCompanies, getTotalCompanies } from '../webSQl';
+import { setForumNewsModalData } from '../reducers/ForumNewsModalReducer';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
 
 const Homepage = (props) => {
-
+   const dispatch = useDispatch();
    const [Countries, setCountries] = useState([]); 
    const [AvailableContries, setAvailableContries] = useState([]);
    const [selectedCountry, setselectedCountry] = useState(0);  
@@ -32,29 +36,21 @@ const Homepage = (props) => {
    const [hasmoreCompanies, sethasmoreCompanies] = useState(true);
    const [isSearching, setisSearching] = useState(false);
    const [isDocumentDialog, setisDocumentDialog] = useState(false);
-   
+   const [selectdexchnage, setselectdexchnage] = useState("");
+
    console.log(Companies);
 
    const controller = new AbortController();
    const { signal } = controller;
 
+
     useEffect(() => {
+        dispatch(setheadermenuData({currentpath:'/financials', headerfootershow:true}));
         setIsFetching(true);
         getCountries().then(meta => {
             setCountries(meta)
             console.log(meta);
         }); 
-        // companiesPaginationIndexed(0).then(meta => setCompanies(meta.data));   
-        // console.log(getCompaniesByCountry(0, 0, 0));
-        // getCompaniesByCountry(0, 0, 0, signal).then(meta => {
-        //     console.log(meta );
-        //     setCompanies(meta.data)
-        //     console.log(meta.data);
-        //     setIsFetching(false);
-        // });   
-        // getCompanies().then(meta=>{
-        //     setCompanies(meta)
-        // })
         window.scrollTo(0, 0);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -67,6 +63,9 @@ const Homepage = (props) => {
             setCompanies(meta.data)
             console.log(meta);
         });
+        if(country!="DFM"&&country!="ADX"){
+            setselectdexchnage("");
+        }
     }
 
 
@@ -89,15 +88,15 @@ const Homepage = (props) => {
     const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
-    if (!isFetching) return;
-    fetchCompanies();
+        if (!isFetching) return;
+        fetchCompanies();
     }, [isFetching]);
 
     function handleScroll() {
-    if(hasmoreCompanies&&(!isFetching)){  
-        if (window.innerHeight + ((parseInt(document.documentElement.scrollTop)+1000)) < document.documentElement.offsetHeight || isFetching) return;
-        setIsFetching(true);
-      }
+        if(hasmoreCompanies&&(!isFetching)){  
+            if (window.innerHeight + ((parseInt(document.documentElement.scrollTop)+5000)) < document.documentElement.offsetHeight || isFetching) return;
+            setIsFetching(true);
+        }
     }
 
     const handleSearch = (SearchValue) =>{
@@ -121,6 +120,13 @@ const Homepage = (props) => {
         if(props.onClick===undefined)
         navigate(-1);
     }
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    const todaydate = mm + ' ' + dd + ', ' + yyyy;
 
     return (
         <>
@@ -163,11 +169,30 @@ const Homepage = (props) => {
                         </div>
                         </div>
                     </div>
+                 {(selectedCountry=="UAE"||selectedCountry=="DFM"||selectedCountry=="ADX")?(   
+                    <div className="row">
+                        <div className="col">
+                        <Chip
+                            onClick={()=>{(selectdexchnage!="DFM")?changeCountry("DFM"):changeCountry("UAE"); setselectdexchnage((selectdexchnage!="DFM")?"DFM":""); }}
+                            avatar={<Avatar alt="UAE" src={getFlag("UAE")} />}
+                            label="DFM"
+                            variant={(selectdexchnage=="DFM")?"":"outlined"}
+                            />
+                            <Chip
+                            style={{"marginLeft":"10px"}}
+                            onClick={()=>{(selectdexchnage!="ADX")?changeCountry("ADX"):changeCountry("UAE"); setselectdexchnage((selectdexchnage!="ADX")?"ADX":""); }}
+                            avatar={<Avatar alt="UAE" src={getFlag("UAE")} />}
+                            label="ADX"
+                            variant={(selectdexchnage=="ADX")?"":"outlined"}
+                            />
+                        </div>
+                    </div>
+                 ):""}
                     <div className="row section_divider">
                         <div className="col-md-12">
                             <div className="row searchboxcompanypage" >
                                 <div className="col-md-6">
-                                    <label className='labelasheading'>Companies</label>
+                                    <label className='labelasheading'>Companies <span className='companylistingtxt'>(Total {Companies.length} listed companies {selectedCountry!=""?" in "+selectedCountry:""} as of {format(new Date(), 'MMM d, Y')})</span></label>
                                 </div>
                                 <div className="col-md-6">
                                     <div>
@@ -184,7 +209,7 @@ const Homepage = (props) => {
                               ((Companies.length==0)&&(!isFetching&&!isSearching))?("" ):(
                                 Companies.map(function (value, index, array) {
                                     return (
-                               <Grid onClick={()=>setSelectedCompanyData(value)}  data-toggle="modal" data-target="#ForumOrNewsPopup" key={index} item md={2} xs={6} height={260}>        
+                               <Grid onClick={()=>dispatch(setForumNewsModalData({visibility:true, details:value}))}   key={index} item md={2} xs={6} height={260}>        
                                    <Companylistcard  CompanyImage ={value.image} GoToReports={GoToReports} GoToNews={GoToNews} CompanyName={value.Company_Name} CompanyId={value.id} />
                                </Grid>
                                )}
@@ -193,20 +218,18 @@ const Homepage = (props) => {
                                )
                                 }
                                 {
-                                  (isFetching)?(Array.from({ length: 12 }, (x, i) => { return (
-                                         <Grid key={i} item md={2} xs={6}>
-                                             <Skeleton style={{"transform":"scale(1, 0.9)"}} height={100} />
-                                             <Skeleton height={40} />
-                                         </Grid> )
-                                        })):("")
+                                (isFetching)?(Array.from({ length: 12 }, (x, i) => { return (
+                                    <Grid key={i} item md={2} xs={6}>
+                                        <Skeleton style={{"transform":"scale(1, 0.9)"}} height={100} />
+                                        <Skeleton height={40} />
+                                    </Grid> )
+                                })):("")
                                 }
                             </Grid>
                         </div>
                     </div>
                    </div>
             </div>
-            <Popupforumornews c_data={SelectedCompanyData}/>
-            {/* <Companyreportnews GoToReports={GoToReports} GoToNews={GoToNews} CompanyName={CompanyNameModal} isDocumentDialog={true} CompanyImage={CompanyImageModal} CompanyId={CompanyIdModal} setisDocumentDialog={setisDocumentDialog}/>      */}
         </>
     );
 }

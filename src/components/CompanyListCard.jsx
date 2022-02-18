@@ -10,7 +10,7 @@ const Companylistcard = (props) => {
     const {CompanyImage, CompanyName} = props;
 
     const handleClick = () =>{
-        
+        console.log("CcClick");
     }
 
     return (

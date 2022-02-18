@@ -30,23 +30,28 @@ import { useDispatch } from 'react-redux';
 import { login } from './reducers/UserdataReducer';
 import Sharebtnsmodal from './popup/ShareBtnsModal';
 import Popupmodals from './popup/PopupModals';
+import Companynews from './Pages/CompanyNews';
+
 
 const App = () => {
     const dispatch = useDispatch();
     useEffect(() => { 
+    fetchDataCompaniesDB();
     dispatch(login({name:"Aayush Solanki", age:40, email:"ayush@gmail.com"}))
     }, []);
 
     const user = useSelector((state)=>state.user.value);
     console.log(user);
+    const headerData = useSelector((state)=>state.headermenureducer.value);
+    console.log(headerData);
 
-    fetchDataCompaniesDB();
+   
     let var_token = null;
     console.log("token : "+getUserToken());
-    fetchDataCompaniesDB();
     if ((getUserToken() !== null) &&(getUserToken() !==  undefined) ) {
         var_token = getUserToken();
     }   
+    
     const url_location = window.location.pathname;
     const EmailOfOtp = sessionStorage.getItem('email_for_otp');
     const mobileOfOtp = sessionStorage.getItem('mobile_for_otp');
@@ -73,15 +78,10 @@ const App = () => {
     }
 
     return ( < div >
-            {(IsUserLogin && ((url_location == '/') || (url_location == '/home') || (url_location == '/forums/addforum') || (url_location == '/financials') || (url_location == '/forums') || (url_location == '/news') || (url_location === m_r)))?(<Header IsUserLogin={IsUserLogin} setIsUserLogin={setIsUserLogin} />):""}
-             <Routes>
-                <Route exact path="/linkedin" element={<h1>Helo</h1>} />
-                    <Route path="/otp" element={<OtpScreen/>} />
-                <Route path="/" element={< Companiespage />} />
-                    <Route path="/changepass" element={<Changepassword/>}></Route>
-                <Route path="/settings" element={<Settingspage/>}/>
-                    <Route path = "/myprofile" element={<Autoprofile/>} />
-                    <Route path = "/payment" element={<PaymentGateway/>} />
+        {(headerData.headerfootershow)?(<Header IsUserLogin={IsUserLogin} headerData={headerData} setIsUserLogin={setIsUserLogin} />):""}
+                
+                 {!IsUserLogin?(   
+                    <Routes>
                     <Route exact path = "/login"
                           element = {<Loginpage token={token} setIsUserLogin={setIsUserLogin} /> } />  
                     <Route path = "/logout"
@@ -90,7 +90,16 @@ const App = () => {
                            element = { < SignUpPage token={token} setIsUserLogin={setIsUserLogin} /> }/>
                     <Route path="/forgot_password"  token={token} setIsUserLogin={setIsUserLogin}
                            element = { < ForgetPassword/> }/>     
-
+                    <Route exact path="/linkedin" element={<h1>Helo</h1>} />
+                    <Route path="/otp" element={<OtpScreen/>} />
+                    </Routes>
+                 ):(
+                    <Routes>
+                    <Route path="/" element={< Companiespage />} />
+                    <Route path="/changepass" element={<Changepassword/>}></Route>
+                    <Route path="/settings" element={<Settingspage/>}/>
+                    <Route path = "/myprofile" element={<Autoprofile/>} />
+                    <Route path = "/payment" element={<PaymentGateway/>} />
                     <Route path="/financials" token={token}  setIsUserLogin={setIsUserLogin}
                            element = { <Homepage  setIsUserLogin={setIsUserLogin}/> }/> 
                     <Route path="/news" token={token} 
@@ -105,13 +114,14 @@ const App = () => {
                            element = { < Companiespage/> }/>   
                     <Route exact path="/company/:id" element = { <Companydetails/> }/>   
                     <Route exact path="/document" element = { <Pdfview/> }/>   
-
                     <Route exact path="/privacynpolicy" element={<Privacypolicy />} />
                     <Route exact path="/termsandconditions" element={<Termsncondition />} />
                     <Route exact path="/about_us" element={<Aboutus />} />
-                <Route exact path="/contact_us" element={<Contactus />} />
+                    <Route exact path="/contact_us" element={<Contactus />} />
+                    <Route exact path="/companynews/:companyid" element={<Companynews/>}/> 
                 </Routes>
-            {(IsUserLogin && ((url_location == '/') || (url_location == '/home') || (url_location == '/forums/addforum') || (url_location == '/financials') || (url_location == '/forums') || (url_location == '/news') || (url_location === m_r))) ? (<Footer/>):""}
+                 )}
+                {(headerData.headerfootershow)?(<Footer/>):""}
             <Popupmodals/>
         </div>
     );

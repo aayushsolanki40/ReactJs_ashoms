@@ -13,6 +13,10 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.forumpostcard {
+    margin-top: 20px;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 ::-webkit-scrollbar {
     width: 5px;
@@ -307,7 +311,7 @@ a.form_label_txt {
 }
 
 .company_details_period_section {
-    height: 500px;
+    height: 600px;
     padding: 10px;
 }
 
@@ -327,9 +331,12 @@ a.form_label_txt {
     display: inline-block;
 }
 
-.yearSelectorDocument div,
+.yearSelectorDocument div {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
 .periodSelectorDocument div {
-    margin-left: 10px;
     margin-top: 5px;
 }
 
@@ -613,6 +620,10 @@ a.form_label_txt {
     padding-left: 100px;
     padding-right: 100px;
     padding-top: 40px;
+}
+
+.companylistingtxt {
+    font-size: 12px;
 }
 
 .icon_container_row span {
@@ -1409,11 +1420,11 @@ div[data-testid="otp-input-root"] input:focus {
 
 .addforumbtn {
     position: fixed !important;
-    top: 80vh;
+    top: 15vh;
     z-index: 5;
     left: 50vw;
-    height: 66px;
-    width: 66px !important;
+    height: 50px;
+    width: 50px !important;
     display: flex !important;
     justify-content: center !important;
     border-radius: 40px !important;
@@ -1504,6 +1515,10 @@ div[data-testid="otp-input-root"] input:focus {
     font-size: 18px;
 }
 
+.footer_copyright_label {
+    font-size: 14px;
+}
+
 .searchboxcompanypage {
     height: 50px;
 }
@@ -1528,6 +1543,12 @@ div[data-testid="otp-input-root"] input:focus {
 
 .css-o69gx8-MuiCardMedia-root {
     object-fit: contain !important;
+    border-radius: 5px;
+}
+
+.forum_post_image {
+    object-fit: cover !important;
+    border-radius: 5px;
 }
 
 .news_media_image {
@@ -1563,6 +1584,16 @@ div[data-testid="otp-input-root"] input:focus {
 .forumUploadedDeleteBtnIcon {
     height: inherit;
     width: inherit;
+}
+
+.forumpost_link {
+    color: rgb(80, 185, 242) !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 12px;
 }
 
 .addforumradiogroup {
@@ -1762,9 +1793,6 @@ div[data-testid="otp-input-root"] input:focus {
         left: unset;
         bottom: 30px;
         right: 30px;
-    }
-    .forumpostcard {
-        margin-top: 20px;
     }
     .css-o69gx8-MuiCardMedia-root {
         height: 210px !important;

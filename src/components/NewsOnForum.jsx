@@ -30,7 +30,6 @@ const Newsonforum = () => {
     const [hasmorenews, sethasmorenews] = useState(true);
 
     function fetchNews(){
-        
     getFinancialNews2(currentNewsPosition, 10, selectedCountry).then(meta => {
             setNews([...News, ...meta.data]);
             if(meta.metadata.total_pages==meta.metadata.current_page)

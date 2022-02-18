@@ -12,9 +12,10 @@ import Subscriptionpopup from './Subscriptionpopup';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { LogoutUser } from '../API/LocalStore';
 
+
 const Header = (props) => {
     const [currentTab, setcurrentTab] = useState(window.location.pathname);
-    const {IsUserLogin, setIsUserLogin} = props;
+    const {IsUserLogin, setIsUserLogin, headerData} = props;
     const [username, setusername] = useState('Loading..');
     const [profileImg, setprofileImg] = useState('');
     const [Userdata, setUserdata] = useState('');
@@ -55,7 +56,7 @@ const Header = (props) => {
           let error = meta.response.data;
           if (error.status==false){
              LogoutUser();
-            window.location.href = "/login";
+            // window.location.href = "/login";
           }
         }
             console.log(meta);
@@ -127,9 +128,9 @@ const Header = (props) => {
               <div className="container">
                 <nav className="navbar navbar-expand-lg  p-0">
                     <a className="navbar-brand">
-                        <div onClick={()=>navtohome()} className='row authPage_icon_div section_divider'>
+                       <NavLink to="/"><div className='row authPage_icon_div section_divider'>
                             <img className='authPage_icon' src='/assets/icons/ashom_header_logo.svg'/>
-                        </div>
+                        </div></NavLink> 
                     </a>
                     <div className='navbar_toogle_box' >
                     <Avatar   data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style={{"height":"40px", "width":"40px"}} alt={username.charAt(0)} src={profileImg} />
@@ -150,27 +151,27 @@ const Header = (props) => {
                         <ul className="navbar-nav float-md-left w-100">
                            {IsUserLogin ? (
                         <>    
-                          <li className={(currentTab==='/home'||currentTab==='/'||currentTab==='')?"nav-item active":"nav-item"}>
+                          <li className={(headerData.currentpath==='/home'||headerData.currentpath==='/'||headerData.currentpath==='')?"nav-item active":"nav-item"}>
                             <NavLink activeclassname="active_header_navlink" className="nav-link" onClick={()=>setcurrentTab('/home')} to={"/home"}>
-                            {(currentTab==='/home')?<img style={{"height": "30px", "width": "43px"}} className='headerIconImgs' src="/assets/icons/menu_home_fill.svg" alt="" />:<img className='headerIconImgs' style={{"height": "30px", "width": "43px"}} src="/assets/icons/menu_home.svg" alt="" />}
+                            {(headerData.currentpath==='/home')?<img style={{"height": "30px", "width": "43px"}} className='headerIconImgs' src="/assets/icons/menu_home_fill.svg" alt="" />:<img className='headerIconImgs' style={{"height": "30px", "width": "43px"}} src="/assets/icons/menu_home.svg" alt="" />}
                               HOME 
                               </NavLink>
                           </li>
-                          <li className={(currentTab==='/financials')?"nav-item active":"nav-item"}>
+                          <li className={(headerData.currentpath==='/financials')?"nav-item active":"nav-item"}>
                             <NavLink activeclassname="active_header_navlink" className="nav-link" onClick={()=>setcurrentTab('/financials')}  to={"/financials"}>
-                              {(currentTab==='/financials')?<img className='headerIconImgs' src="/assets/icons/menu_company_fill.svg" style={{"height": "30px", "width": "43px"}} alt="" />:<img className='headerIconImgs' style={{"height": "30px", "width": "43px"}} src="/assets/icons/menu_company.svg" alt="" />} 
+                              {(headerData.currentpath==='/financials')?<img className='headerIconImgs' src="/assets/icons/menu_company_fill.svg" style={{"height": "30px", "width": "43px"}} alt="" />:<img className='headerIconImgs' style={{"height": "30px", "width": "43px"}} src="/assets/icons/menu_company.svg" alt="" />} 
                               FINANCIALS 
                               </NavLink>
                           </li>
-                          <li className={(currentTab==='/forums')?"nav-item active":"nav-item"}>
+                          <li className={(headerData.currentpath==='/forums')?"nav-item active":"nav-item"}>
                           <NavLink activeclassname="active_header_navlink" className="nav-link" onClick={()=>setcurrentTab('/forums')} to={"/forums"}>
-                          {(currentTab==='/forums')?<img className='headerIconImgs'  src="/assets/icons/forum_header_icon.svg" alt="" style={{"height": "30px", "width": "43px"}} />:<img className='headerIconImgs'  src="/assets/icons/menu_forum.svg" alt="" style={{"height": "30px", "width": "43px"}} />}
+                          {(headerData.currentpath==='/forums')?<img className='headerIconImgs'  src="/assets/icons/forum_header_icon.svg" alt="" style={{"height": "30px", "width": "43px"}} />:<img className='headerIconImgs'  src="/assets/icons/menu_forum.svg" alt="" style={{"height": "30px", "width": "43px"}} />}
                               FORUMS 
                               </NavLink>
                           </li>
-                          <li className={(currentTab==='/news')?"nav-item active":"nav-item"}>
+                          <li className={(headerData.currentpath==='/news')?"nav-item active":"nav-item"}>
                           <NavLink activeclassname="active_header_navlink" className="nav-link" onClick={()=>setcurrentTab('/news')}  to={"/news"}>
-                          {(currentTab==='/news')?<img className='headerIconImgs'  src="/assets/icons/menu_news_fill.svg" alt="" style={{"height": "30px", "width": "43px"}} />:<img className='headerIconImgs'  src="/assets/icons/menu_news.svg" alt="" style={{"height": "30px", "width": "43px"}} />}
+                          {(headerData.currentpath==='/news')?<img className='headerIconImgs'  src="/assets/icons/menu_news_fill.svg" alt="" style={{"height": "30px", "width": "43px"}} />:<img className='headerIconImgs'  src="/assets/icons/menu_news.svg" alt="" style={{"height": "30px", "width": "43px"}} />}
                               NEWS 
                               </NavLink>
                           </li>
@@ -182,7 +183,6 @@ const Header = (props) => {
                                 avatar={<Avatar style={{"height":"40px", "width":"40px"}} alt={username.charAt(0)} src={profileImg} />}
                                 label={username}
                                 variant="outlined"
-                               
                                 aria-controls={open ? 'account-menu' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={open ? 'true' : undefined}
@@ -193,12 +193,6 @@ const Header = (props) => {
                         </> 
                         ) : (
                         <>    
-                            <li className="nav-item">
-                            <NavLink className='text-decoration-none' to="/login"><Button variant="outlined" startIcon={<LoginIcon />}>Login</Button></NavLink>
-                            </li>
-                            <li className="nav-item">
-                            <NavLink className='text-decoration-none' to="/signup"><Button variant="outlined" startIcon={<LogoutIcon />}>Sign Up</Button></NavLink>
-                            </li>
                         </>
                         )}
                         </ul>

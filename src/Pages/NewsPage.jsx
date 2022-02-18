@@ -9,8 +9,11 @@ import PublicIcon from '@mui/icons-material/Public';
 import { getFlag } from '../API/LocalStore';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
 
 const Newspage = () => {
+    const dispatch = useDispatch();
     const [currentNewsPosition, setcurrentNewsPosition] = useState(0);
     const [News, setNews] = useState([]); 
     const [selectedCountry, setselectedCountry] = useState('');  
@@ -52,6 +55,7 @@ const Newspage = () => {
     }
     
      useEffect(() => {
+        dispatch(setheadermenuData({currentpath:'/news', headerfootershow:true}));
          getCountries().then(meta => {
              setCountries(meta)
          });   

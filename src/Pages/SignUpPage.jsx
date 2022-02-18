@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-phone-input-2/lib/style.css'
 import PhoneInput from 'react-phone-input-2';
 import {Link, matchPath} from "react-router-dom";
@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import { getLikedUserEmail, getLikedUserName, getLinkedinAccessToken, getUserdataByToken, signupAPI } from '../API/Userapis';
 import { getUserToken, saveUserToken } from '../API/LocalStore';
 import LinkedIn from "linkedin-login-for-react";
+import { useDispatch } from 'react-redux';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
 
 const SignUpPage = () => {
 
@@ -36,6 +38,12 @@ const SignUpPage = () => {
     const [errorMessage, seterrorMessage] = useState('');
     const [successMessage, setsuccessMessage] = useState('');
     const [isGoogleSignUp, setisGoogleSignUp] = useState(false);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setheadermenuData({currentpath:'/signup', headerfootershow:false}));
+    }, []);
 
     const validateEmail = (email) =>
          email.match(

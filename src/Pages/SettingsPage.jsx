@@ -6,7 +6,8 @@ import Backbutton from '../components/Backbutton';
 import { getUserdata } from '../API/Userapis';
 import Subscriptionpopup from '../components/Subscriptionpopup';
 import { LogoutUser } from '../API/LocalStore';
-
+import { useDispatch } from 'react-redux';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
 
 const Settingspage = () => {
 
@@ -19,8 +20,10 @@ const Settingspage = () => {
     const [ProfilePic, setProfilePic] = useState('');
     const [Userdata, setUserdata] = useState({});
     const [Login_type, setLogin_type] = useState('');
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(setheadermenuData({currentpath:'/setting', headerfootershow:false}));
         getUserdata().then(meta => {
             if (meta.response) {
                 setUserdata(meta.response);

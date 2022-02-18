@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom";
-import {getCompanyYears, getCompanyDocuments, getSingleCompany, requestOpenCompanyApi} from '../API/Userapis';
+import {getCompanyYears, getCompanyDocuments, getSingleCompany, requestOpenCompanyApi, getFinancialNews} from '../API/Userapis';
 import { Skeleton, Grid, Paper, Card, Chip, Divider, CardActionArea, IconButton, Avatar, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getFlag } from '../API/LocalStore';
@@ -24,6 +24,7 @@ const Companydetails = (props) => {
     const [isDetailModalShow, setisDetailModalShow] = useState(true);
     const [ModalDocumentTitle, setModalDocumentTitle] = useState('');
     const [ModalDocumentDetails, setModalDocumentDetails] = useState('');
+    const [News, setNews] = useState([]);
 
     const GoToDocumentView = (ref_url) =>{
         requestOpenCompanyApi(company_id, 1);
@@ -36,7 +37,9 @@ const Companydetails = (props) => {
         }
     } 
     
+    
     useEffect(() => {
+        window.scrollTo(0, 0);
         getCompanyYears(company_id).then(meta => {
             setCompanyYears(meta)
             setSelectedYear(meta[0].year);
@@ -44,6 +47,8 @@ const Companydetails = (props) => {
                 setCompanydocuments(meta)
             });
         });
+
+            
         
         getRemainsVisits().then(meta =>{
             let visited_companies = meta.visited_companies;
@@ -75,6 +80,9 @@ const Companydetails = (props) => {
             setCompany_name(meta.Company_Name);
             setCompany_image(meta.image);
             setCompany_country(meta.Country);
+            getFinancialNews(0, meta.Country, meta.SymbolTicker).then(metanews =>{
+                setNews(metanews.data.slice(0, 2));
+            });    
         })
            
     }, []);
@@ -173,7 +181,7 @@ const Companydetails = (props) => {
                   <div className="row">
                       <div className="col-md-4">
                             <Card className="section_divider company_details_period_section">
-                            <label className='labelasheading mt-3 ml-2'>Select Year</label><br/>   
+                            <label className='labelasheading mt-1 ml-2'>Select Year</label><br/>   
                             <div className="yearSelectorDocument">
                                 
                               {(CompanyYears.length==0)?(
@@ -191,33 +199,58 @@ const Companydetails = (props) => {
                             }  
                             </div>    
                              <Divider className='section_divider mt-3'/>   
-                            <label className='labelasheading mt-3 ml-2'>Select Period</label><br/>
+                            <label className='labelasheading mt-1 ml-2'>Select Period</label><br/>
                             <div className="periodSelectorDocument">
-                                <Chip
-                                onClick={()=>setDocumentPeriod('annual')}
-                                label="Annual"
-                                variant={(SelectedPeriod=='annual')?"":"outlined"}
-                                />
-                                <Chip
-                                onClick={()=>setDocumentPeriod('q1')}
-                                label="1st Quarter"
-                                variant={(SelectedPeriod=='q1')?"":"outlined"}
-                                />
-                                <Chip
-                                onClick={()=>setDocumentPeriod('q2')}
-                                label="2nd Quarter"
-                                variant={(SelectedPeriod=='q2')?"":"outlined"}
-                                />
-                                <Chip
-                                onClick={()=>setDocumentPeriod('q3')}
-                                label="3rd Quarter"
-                                variant={(SelectedPeriod=='q3')?"":"outlined"}
-                                />
-                                <Chip
-                                onClick={()=>setDocumentPeriod('q4')}
-                                label="4th Quarter"
-                                variant={(SelectedPeriod=='q4')?"":"outlined"}
-                                />
+                                <div className="row">
+                                <div className="col-3">
+                                    <Chip
+                                    onClick={()=>setDocumentPeriod('annual')}
+                                    label="Annual"
+                                    variant={(SelectedPeriod=='annual')?"":"outlined"}
+                                    />
+                                </div>
+                                <div className="col-9">
+                                    <Chip
+                                    onClick={()=>setDocumentPeriod('q1')}
+                                    label="1st Quarter"
+                                    variant={(SelectedPeriod=='q1')?"":"outlined"}
+                                    />
+                                    <Chip
+                                    style={{"marginLeft":"10px"}}
+                                    onClick={()=>setDocumentPeriod('q2')}
+                                    label="2nd Quarter"
+                                    variant={(SelectedPeriod=='q2')?"":"outlined"}
+                                    />
+                                    <Chip
+                                    onClick={()=>setDocumentPeriod('q3')}
+                                    label="3rd Quarter"
+                                    variant={(SelectedPeriod=='q3')?"":"outlined"}
+                                    />
+                                    <Chip
+                                    style={{"marginLeft":"10px"}}
+                                    onClick={()=>setDocumentPeriod('q4')}
+                                    label="4th Quarter"
+                                    variant={(SelectedPeriod=='q4')?"":"outlined"}
+                                    />
+                                </div>
+                                </div>
+                            </div>
+                            <Divider className='section_divider mt-3'/> 
+                            <label className='labelasheading mt-1 ml-2'>Related News</label><br/>
+                            <div className="row">
+                                <div className="col">
+                                    {
+                                        (News.map(function (value, index, array) {
+                                            return (
+                                            <Newsitem size={3} title={value.source}
+                                                description={value.title}
+                                                created={value.created}
+                                                image={value.image_url}
+                                                url_link={value.link}
+                                                key={index} />)
+                                            })
+                                    }
+                                </div>
                             </div>
                             </Card>
                       </div>

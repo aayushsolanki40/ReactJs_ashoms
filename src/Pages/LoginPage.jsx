@@ -8,10 +8,13 @@ import {getLinkedinAccessToken, getUserdataByToken, resendOTP, signupAPI} from '
 import { useNavigate } from 'react-router-dom';
 import { getUserToken, saveUserToken } from '../API/LocalStore';
 import LinkedIn from "linkedin-login-for-react";
+import { useDispatch } from 'react-redux';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
 
 const Loginpage = (props) => {
     
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
     const [email_err, setemail_err] = useState('');
@@ -23,6 +26,7 @@ const Loginpage = (props) => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        dispatch(setheadermenuData({currentpath:'/signup', headerfootershow:false}));
     }, []);
     
     const validateEmail = (email) =>

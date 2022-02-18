@@ -3,6 +3,8 @@ import Alert from '@mui/material/Alert';
 import {Card, TextField, Avatar } from '@mui/material';
 import Backbutton from '../components/Backbutton';
 import { requestForgetPassword, requestForgotPassword } from '../API/Userapis';
+import { useDispatch } from 'react-redux';
+import {setheadermenuData} from '../reducers/HeaderMenuReducer';
 
 const Forgetpassword = () => {
 
@@ -11,6 +13,13 @@ const Forgetpassword = () => {
     const [Email, setEmail] = useState('');
     const [Email_err, setEmail_err] = useState('');
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        dispatch(setheadermenuData({currentpath:'/signup', headerfootershow:false}));
+    }, []);
+    
     const clearAlerts = () =>{
         seterrorMessage("");
         setsuccessMessage("");

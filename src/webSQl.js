@@ -13,8 +13,12 @@ db.open();
 // }
 // })
 
+var total_companies = 0;
+
 function fetchDataCompaniesDB() {
     allcompaniesApi().then(metas => {
+        total_companies = metas.length;
+        console.log(total_companies);
         metas.map((meta, index) => {
             db.companies.get({ id: meta.id }).then(singleCompany => {
                 if (!singleCompany)
@@ -22,6 +26,11 @@ function fetchDataCompaniesDB() {
             })
         })
     })
+}
+
+function getTotalCompanies() {
+    console.log(total_companies);
+    return total_companies;
 }
 
 function getCompanies() {
@@ -48,4 +57,4 @@ function companiesPaginationIndexed(country, searchtext, page) {
     });
 }
 
-export { fetchDataCompaniesDB, getCompanies, companiesPaginationIndexed };
+export { fetchDataCompaniesDB, getCompanies, companiesPaginationIndexed, getTotalCompanies };

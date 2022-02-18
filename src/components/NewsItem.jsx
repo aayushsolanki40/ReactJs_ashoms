@@ -27,14 +27,14 @@ const Newsitem = (props) => {
         <div className="newsItemIcons">
             <div className="newsItemIconsdIV">
                 <div className="newsItemIconsLink"  href='/forum' onClick={(e)=>sharetoforum(e)}>
-                    <img  alt="" srcSet="./assets/icons/forum_icon_news.svg" />
+                    <img  alt="" srcSet="/assets/icons/forum_icon_news.svg" />
                 </div>
-                <div className="newsItemIconsLink" to="./login"  href='/news'
+                <div className="newsItemIconsLink" to="/login"  href='/news'
                onClick={(e)=>{
                     e.preventDefault();
                     e.stopPropagation();
                     dispatch(showsharemodal(true));}}>
-                <img style={{"width":"18px", "height":"18px"}} src="./assets/icons/share.svg" className="githubIcon" />
+                <img style={{"width":"18px", "height":"18px"}} src="/assets/icons/share.svg" className="githubIcon" />
                 </div>    
             </div>
         </div>

@@ -72,7 +72,7 @@ const Footer = () => {
         <div className="container">
             <div className="row">
                 <div className="col-md-12 footer_copyright_label">
-                        copyright Ashom.app 2022
+                    copyright © 2022 Ashom.app. All Rights Reserved
                 </div>
             </div>
         </div>

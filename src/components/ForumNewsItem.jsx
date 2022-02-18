@@ -19,6 +19,12 @@ const dispatch = useDispatch();
         navigate('/forums/addforum', true);
     }
 
+    const showsharemodals = (e) =>{
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(showsharemodal(true));
+    }
+
     return (
         <>
         <Grid className='newsForumItemBox'  item xs={size}>
@@ -28,8 +34,8 @@ const dispatch = useDispatch();
                 <Link className="newsForumItemIconsLink" href='/forums' onClick={(e)=>sharetoforum(e)}>
                             <img src="" alt="" srcSet="/assets/icons/sharetoforumicon.png" />
                 </Link>
-                <Link className="newsForumItemIconsLink" to="./login"  href='/news'>
-                            <img src="/assets/icons/sharenewsicon.png" className="githubIcon" />
+                <Link className="newsForumItemIconsLink" onClick={(e)=>showsharemodals(e)}>
+                            <img src="/assets/icons/sharenewsicon.png" className="sharenewsicon" />
                 </Link>    
             </div>
         </div>
@@ -46,13 +52,13 @@ const dispatch = useDispatch();
                 </div>
                 <div className="col-md-8 pl-0">
                 <CardContent style={{"height":"100px", "padding":"10px"}} >
-                <Typography style={{"fontWeight":"400", "fontSize":"12px"}}>
+                <Typography style={{"fontWeight":"400", "fontSize":"11px", "color":"#999"}}>
                 {title}
                 </Typography>
-                <Typography style={{"textDecorationLine":"none", "display": "-webkit-box", "WebkitLineClamp": "2", "WebkitBoxOrient": "vertical", "textOverflow": "ellipsis", "overflow": "hidden"}}>
+                <Typography style={{"textDecorationLine":"none", "height": "55px", "display": "-webkit-box", "WebkitLineClamp": "3", "WebkitBoxOrient": "vertical", "textOverflow": "ellipsis", "overflow": "hidden", "fontSize":"13px"}}>
                     {description}
                 </Typography>
-                <span style={{"float":"right", "fontSize":"12px", "color":"grey"}}>{timeSince(new Date(created_at))}</span>
+                <span style={{"float":"right", "fontSize":"10px", "color":"grey"}}>{timeSince(new Date(created_at))}</span>
                 </CardContent> 
                 </div>
                 </div>

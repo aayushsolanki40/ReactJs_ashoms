@@ -6,9 +6,10 @@ import Backbutton from './Backbutton';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import {setnewssharedata} from '../reducers/NewsShareReducer';
+import { useNavigate } from 'react-router-dom';
 
-const Addforumlayout = () => {
-    
+const Addforumlayout = (props) => {
+    const navigate = useNavigate();
     const [Userdata, setUserdata] = useState({});
     let username = Userdata.first_name+Userdata.last_name;
     const [SelectedTab, setSelectedTab] = useState('compose');
@@ -70,6 +71,7 @@ const Addforumlayout = () => {
                     setForumImage('');
                     setForumimageData('');
                     setsuccessMessage(meta.message);
+                    props.handlerefreshfourms();
                     navigate("/forums");
                 }
                 else{
@@ -151,6 +153,7 @@ const Addforumlayout = () => {
             setContentText(shareForum.title+"@"+shareForum.link)
             setForumImage(shareForum.image)
             setForumimageData(shareForum.image)
+            dispatch(setnewssharedata({active:false, title : "", link : "", image : ""}));
         }
 
     }, [shareForum]);
