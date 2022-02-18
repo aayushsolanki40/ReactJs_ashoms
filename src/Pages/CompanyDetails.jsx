@@ -7,6 +7,7 @@ import { getFlag } from '../API/LocalStore';
 import {getRemainsVisits} from '../API/Userapis';
 import Documentdetailppopup from '../popup/DocumentDetailPPopup';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import Newsitem from '../components/NewsItem';
 
 
 const Companydetails = (props) => {
@@ -240,7 +241,7 @@ const Companydetails = (props) => {
                             <div className="row">
                                 <div className="col">
                                     {
-                                        (News.map(function (value, index, array) {
+                                        News.map(function (value, index, array) {
                                             return (
                                             <Newsitem size={3} title={value.source}
                                                 description={value.title}
