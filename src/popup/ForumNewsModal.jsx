@@ -97,12 +97,7 @@ const ForumNewsModal = (props) => {
         </div>
         </Modal.Header>
         <Modal.Body>
-        <div className="row">
-            <div className="col-md-12 company_pop_r delisted_txt">
-                {Delisted_date?(<span>Delisted on <b>{Delisted_date}</b></span>):""}
-                {(isSubscribed)?(<span>Remaining Count : <b>{Remaining_count}</b></span>):(<span style={{"color":"red"}}>Your did not subscribed.</span>)}
-            </div>
-        </div>
+        
 
         <div className="row" style={{"display": "flex", "justifyContent": "space-evenly"}}>
             <a  href="about:blank"  className="nolink box_inner company_pop_r" onClick={(e)=>n_to_Financial_Report(e)}>
@@ -127,6 +122,12 @@ const ForumNewsModal = (props) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
+            <div className="row">
+            <div className="col-md-12 company_pop_r delisted_txt">
+                    {Delisted_date?(<span>Delisted on <b>{Delisted_date}</b></span>):""}
+                    {(isSubscribed)?(<span>Remaining Count : {Remaining_count}</span>):(<span style={{"color":"red"}}>Your did not subscribed.</span>)}
+                </div>
+            </div>
             </Modal.Footer>
       </Modal>
     );

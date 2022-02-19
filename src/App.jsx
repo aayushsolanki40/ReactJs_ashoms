@@ -31,7 +31,8 @@ import { login } from './reducers/UserdataReducer';
 import Sharebtnsmodal from './popup/ShareBtnsModal';
 import Popupmodals from './popup/PopupModals';
 import Companynews from './Pages/CompanyNews';
-
+import SelectedCompanies from './Pages/SelectedCompanies';
+import RecentSearches from './Pages/RecentSearches';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -119,6 +120,8 @@ const App = () => {
                     <Route exact path="/about_us" element={<Aboutus />} />
                     <Route exact path="/contact_us" element={<Contactus />} />
                     <Route exact path="/companynews/:companyid" element={<Companynews/>}/> 
+                    <Route exact path="/selectedcompanies" element={<SelectedCompanies/>}/>
+                    <Route exact path="/searches" element={<RecentSearches/>}/> 
                 </Routes>
                  )}
                 {(headerData.headerfootershow)?(<Footer/>):""}

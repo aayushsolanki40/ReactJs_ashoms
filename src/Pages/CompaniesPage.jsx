@@ -5,13 +5,14 @@ import { useDispatch } from 'react-redux';
 import {setheadermenuData} from '../reducers/HeaderMenuReducer';
 
 const Companiespage = () => {
+    const navigate = useNavigate();
     const GoToCompany = (e) =>{
         e.preventDefault();
-        window.location.replace('/financials');
+        navigate('/financials');
     } 
     const GoToNews = (e) =>{
         e.preventDefault();
-        window.location.replace('/news');
+        navigate('/news');
     }
     
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Companiespage = () => {
     return (
         <>
            
-        <div className="container homepage_container section_divider">
+        <div style={{"minHeight":"90vh"}} className="container homepage_container section_divider">
                 <div className="row global_search_box">
                     <div className="col-md-4 offset-md-4">
                         <CompanySelect/>

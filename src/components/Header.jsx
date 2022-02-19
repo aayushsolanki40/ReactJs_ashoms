@@ -147,7 +147,7 @@ const Header = (props) => {
                     {/* <button >
                         <span className="navbar-toggler-icon"></span>
                     </button> */}
-                    <div className="collapse navbar-collapse float-left" id="navbarNav">
+                    <div className="collapse navbar-collapse float-left show" id="navbarNav">
                         <ul className="navbar-nav float-md-left w-100">
                            {IsUserLogin ? (
                         <>    
@@ -173,6 +173,12 @@ const Header = (props) => {
                           <NavLink activeclassname="active_header_navlink" className="nav-link" onClick={()=>setcurrentTab('/news')}  to={"/news"}>
                           {(headerData.currentpath==='/news')?<img className='headerIconImgs'  src="/assets/icons/menu_news_fill.svg" alt="" style={{"height": "30px", "width": "43px"}} />:<img className='headerIconImgs'  src="/assets/icons/menu_news.svg" alt="" style={{"height": "30px", "width": "43px"}} />}
                               NEWS 
+                              </NavLink>
+                          </li>
+                          <li className={(headerData.currentpath==='/searches')?"nav-item active":"nav-item"}>
+                          <NavLink activeclassname="active_header_navlink" className="nav-link" onClick={()=>setcurrentTab('/searches')}  to={"/searches"}>
+                          {(headerData.currentpath==='/searches')?<img className='headerIconImgs'  src="/assets/icons/menu_search_fill.png" alt="" style={{"height": "30px", "width": "30px"}} />:<img className='headerIconImgs'  src="/assets/icons/menu_search.png" alt="" style={{"height": "30px", "width": "30px"}} />}
+                              SEARCH 
                               </NavLink>
                           </li>
                           <a href="nolink" onClick={(e)=>e.preventDefault()} href="about:blank"><div  onClick={handleClick} className='float-right row headerprofile'>

@@ -10,7 +10,7 @@ const Pollpost = (props) => {
     console.log(polldata);
     const {id, forumalldata,  first_name, last_name, options, profile_img, liked, disliked, share_count,  total_comments, content, content_image, total_messages, total_liked, total_disliked, total_shares, created} = polldata;
     const form_id = id;
-    const time= timeSince(new Date(created));
+    const time = timeSince(new Date(created).setTime(new Date(created).getTime() - ((new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000)));
     const username = first_name+last_name;
     const url_link = ((content.split("@")).length>1)?content.split("@")[1]:"";
     const content_txt = content.split("@")[0];
@@ -25,6 +25,7 @@ const Pollpost = (props) => {
     var Option1CVoters = 0;
     var Option2CVoters = 0;
     var Option3CVoters = 0;
+    
     const [PollResult, setPollResult] = useState(false);
     
     useEffect(() => {
@@ -107,8 +108,6 @@ const Pollpost = (props) => {
                     default:
                         break;
                 }
-
-              
             }
             else{
                 alert(meta.message);
@@ -119,13 +118,17 @@ const Pollpost = (props) => {
     }
 
     const calculateVoters = () =>{
+        if(options.option3!==''){
         let total_voters = Option1CVoters+Option2CVoters+Option3CVoters;
-        console.log(total_voters+" "+Option1CVoters+"  "+(Option1CVoters>0?(Option1CVoters*100/total_voters):0));
-        console.log(total_voters+" "+Option2CVoters+" "+(Option2CVoters>0?(Option2CVoters*100/total_voters):0));
-        console.log(total_voters+" "+Option3CVoters+" "+(Option3CVoters>0?(Option3CVoters*100/total_voters):0));
         setOption1Voters(Option1CVoters>0?(Option1CVoters*100/total_voters):0);
         setOption2Voters(Option2CVoters>0?(Option2CVoters*100/total_voters):0);
         setOption3Voters(Option3CVoters>0?(Option3CVoters*100/total_voters):0);
+        }
+        else{
+            let total_voters = Option1CVoters+Option2CVoters;
+            setOption1Voters(Option1CVoters>0?(Option1CVoters*100/total_voters):0);
+            setOption2Voters(Option2CVoters>0?(Option2CVoters*100/total_voters):0);
+        }
     }
 
     return (
@@ -166,8 +169,8 @@ const Pollpost = (props) => {
                     </CardActionArea>
                     </div>
                   </div>
+                  {(options.option3!=='')?(
                   <div className="row">
-                    
                         <div className="pollprogressbar">
                         <CardActionArea onClick={()=>sendPollVote(3)} style={{"height":"100%", "borderRadius":"10px"}}>
                             <span className='poloptionpercentage1'><b>{options.option3}</b></span>   
@@ -176,8 +179,7 @@ const Pollpost = (props) => {
                             </div>
                             </CardActionArea>
                         </div>
-                        
-                  </div>
+                  </div>):("")}
               </div>
             </CardContent> 
             <CardActions>

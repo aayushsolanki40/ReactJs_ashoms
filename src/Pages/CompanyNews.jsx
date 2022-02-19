@@ -15,6 +15,7 @@ const Companynews = () => {
     const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         dispatch(setheadermenuData({currentpath:'/news', headerfootershow:true}));
         getSingleCompany(companyid).then(meta =>{
             setCompanyData(meta);

@@ -51,7 +51,6 @@ const Loginpage = (props) => {
         else{
             if(validateEmail(email)){
             setemail_err('')
-            
             }
             else{
             setemail_err('Please enter valid email.');
@@ -79,6 +78,7 @@ const Loginpage = (props) => {
             headers: { "Content-Type": "application/json" },
           })
             .then(function (response) {
+              seterrorMessage('');
               setsuccessMessage(response.data.message);
               saveUserToken(response.data.token, RememberMe);
               props.setIsUserLogin(true);
@@ -86,7 +86,8 @@ const Loginpage = (props) => {
               window.location.reload();
             })
             .catch(function (error) {
-                
+                seterrorMessage('');
+                setsuccessMessage('');  
               error = error.response.data;
               console.log(error);
               if(error.login_error  != null){
@@ -179,6 +180,8 @@ const Loginpage = (props) => {
                         if(!meta.status){
                             let profile = linkedindata.userdata;
                             signupAPI(profile.localizedFirstName, profile.localizedLastName, "", linkedindata.email, "", "linkedin", "", profile.id, "").then(meta=>{
+                                seterrorMessage('');
+                                setsuccessMessage('');  
                                 if(meta.status){
                                      saveUserToken(profile.id);
                                      window.location.reload();
@@ -186,7 +189,7 @@ const Loginpage = (props) => {
                                 else{
                                     if(meta.first_name_error  != null){
                                        seterrorMessage(meta.mobile_error);
-                                       seterrorMessage((meta.email_error)?"This email is already registered with other login type.":"");
+                                       seterrorMessage((meta.email_error)?"This email is registered with other login type.":"");
                                     }
                                 }
                             }); 

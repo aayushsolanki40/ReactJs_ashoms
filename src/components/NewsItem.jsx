@@ -23,7 +23,7 @@ const Newsitem = (props) => {
         <>
   
         <Grid className='newsItemBox'  item xs={12} md={3} >
-        <a style={{"textDecoration":"none"}} href={url_link}>  
+        <a style={{"textDecoration":"none"}} target="blank" href={url_link}>  
         <div className="newsItemIcons">
             <div className="newsItemIconsdIV">
                 <div className="newsItemIconsLink"  href='/forum' onClick={(e)=>sharetoforum(e)}>

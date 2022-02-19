@@ -44,12 +44,12 @@ const Footer = () => {
                           <div className="col-md-12">  
                         {/* <label className='footer_label'>Available on</label> */}
                         </div>
-                            <a style={{"height": "50px"}} className="col-md-12 available_on_apple_footer" href="https://apps.apple.com/us/app/ashom-app/id1562818820">
+                            <a style={{"height": "50px"}} target="blank" className="col-md-12 available_on_apple_footer" href="https://apps.apple.com/us/app/ashom-app/id1562818820">
                     
                                 <img alt="" srcSet="/assets/icons/applestoreDownload.png" />
                             
                             </a>
-                            <div style={{"marginTop": "10px"}} className="col-md-12 available_on_play_store">
+                            <div style={{"marginTop": "10px"}} target="blank"  className="col-md-12 available_on_play_store">
                                 <img alt="" srcSet="/assets/icons/playstoreDownload.png" />
                             </div>
                         </div>

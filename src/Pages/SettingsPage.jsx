@@ -45,7 +45,7 @@ const Settingspage = () => {
             }
 
         })
-    });
+    }, []);
 
     const navigate = useNavigate();
 

@@ -107,18 +107,20 @@ const Addforumlayout = (props) => {
         }
         if (option2 === '') {
             validateForm = false;
-            setoption2_err("please enter option 1");
+            setoption2_err("please enter option 2");
         }
         else {
             setoption2_err("");
         }
+        if(isPollThirdInpShow){
         if (option3 === '') {
             validateForm = false;
-            setoption3_err("please enter option 1");
+            setoption3_err("please enter option 3");
         }
         else {
             setoption3_err("");
         }
+    }
         if (validateForm){
             postpollApi(ContentText, option1, option2, option3, PollDuration).then((meta)=>{
                 if (meta.status) {
@@ -127,6 +129,8 @@ const Addforumlayout = (props) => {
                     setoption2('');
                     setoption3('');
                     setsuccessMessage(meta.message);
+                    props.handlerefreshfourms();
+                    navigate("/forums");
                 }
                 else {
                     seterrorMessage(meta.message);

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
-import {getCountries, getCompaniesByCountry} from '../API/Userapis';
+import {getCountries, getCompaniesByCountry, insertSearchAPI} from '../API/Userapis';
 import PublicIcon from '@mui/icons-material/Public';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
@@ -116,6 +116,15 @@ const Homepage = (props) => {
         });    
     }
 
+    const addinsearch = (company) =>{
+        if(SearchText!==""){
+            let searchstr = `CompanyName✂${company.Country}✂${company.SymbolTicker}✂${company.image}✂${company.Company_Name}✂${company.id}`;
+            insertSearchAPI(searchstr).then(meta =>{
+                console.log(meta);
+            })
+        }
+    }
+
     const handleBack = () =>{
         if(props.onClick===undefined)
         navigate(-1);
@@ -209,7 +218,7 @@ const Homepage = (props) => {
                               ((Companies.length==0)&&(!isFetching&&!isSearching))?("" ):(
                                 Companies.map(function (value, index, array) {
                                     return (
-                               <Grid onClick={()=>dispatch(setForumNewsModalData({visibility:true, details:value}))}   key={index} item md={2} xs={6} height={260}>        
+                               <Grid onClick={()=>{dispatch(setForumNewsModalData({visibility:true, details:value})); addinsearch(value)}}   key={index} item md={2} xs={6} height={260}>        
                                    <Companylistcard  CompanyImage ={value.image} GoToReports={GoToReports} GoToNews={GoToNews} CompanyName={value.Company_Name} CompanyId={value.id} />
                                </Grid>
                                )}

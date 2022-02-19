@@ -909,6 +909,64 @@ function getCommentReplies(comment_id) {
     })
 }
 
+// https://ashom.app/api/webservice/selectedcompanies/104146150362620465664
+function getSelectedCompanies() {
+    return new Promise(resolve => {
+        axios({
+                method: "get",
+                url: base_url + "api/webservice/selectedcompanies/" + token,
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(function(response) {
+                resolve(response.data);
+            })
+            .catch(function(error) {
+                resolve(error.response.data);
+            });
+    })
+}
+
+// https://ashom.app/api/webservice/searches/l65pjq_c9Q
+function getSearchesAPI(Global = false) {
+    return new Promise(resolve => {
+        axios({
+                method: "get",
+                url: base_url + "api/webservice/searches" + ((!Global) ? ("?token=" + token) : ""),
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(function(response) {
+                resolve(response.data);
+            })
+            .catch(function(error) {
+                resolve(error.response.data);
+            });
+    })
+}
+
+
+//https://ashom.app/api/webservice/searchinsert
+//POST : token, searchstr
+function insertSearchAPI(searchstr = "") {
+    return new Promise(resolve => {
+        var bodyFormData = new FormData();
+        bodyFormData.append("token", token);
+        bodyFormData.append("searchstr", searchstr);
+        axios({
+                method: "post",
+                url: base_url + "api/webservice/searchinsert",
+                data: bodyFormData,
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(function(response) {
+                resolve(response.data);
+            })
+            .catch(function(error) {
+                resolve(error.response.data);
+            });
+    })
+}
+
+
 //https://ashom.app/api/webservice/comment
 //POST : token, forum_id, comment
 
@@ -956,5 +1014,8 @@ export {
     getCommentReplies,
     makeReplayAPI,
     postpollApi,
-    votePollApi
+    votePollApi,
+    getSelectedCompanies,
+    getSearchesAPI,
+    insertSearchAPI
 };

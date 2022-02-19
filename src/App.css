@@ -55,8 +55,8 @@ button:focus {
 }
 
 .nav-item {
-    margin-left: 22px;
-    margin-right: 22px;
+    margin-left: 15px;
+    margin-right: 15px;
     height: 50px;
     width: 90px;
     font-weight: 500;
@@ -76,6 +76,10 @@ button:focus {
     font-size: 11px;
     align-items: center;
     line-height: 24px;
+}
+
+.collapse.navbar-collapse {
+    transform: translateX(-29px);
 }
 
 .nav-item .nav-link {
@@ -311,12 +315,12 @@ a.form_label_txt {
 }
 
 .company_details_period_section {
-    height: 600px;
+    height: 570px;
     padding: 10px;
 }
 
 .company_details_document_section {
-    height: 500px;
+    height: 570px;
     padding: 10px;
 }
 
@@ -965,8 +969,14 @@ div[data-testid="otp-input-root"] input:focus {
 }
 
 .company_details_company_div img {
-    /* height: 40px; */
-    width: 100%;
+    max-width: 100%;
+    max-height: 51px;
+    float: right;
+}
+
+.no_news_txt {
+    font-size: 12px;
+    color: #555;
 }
 
 .subscription_modal_title {
@@ -1169,6 +1179,8 @@ div[data-testid="otp-input-root"] input:focus {
     justify-content: right;
     align-items: flex-end;
     margin-bottom: 15px;
+    font-size: 12px;
+    color: #444;
 }
 
 .com_details_lock_icon {
@@ -1781,9 +1793,9 @@ div[data-testid="otp-input-root"] input:focus {
         transform: translateX(-50%);
     }
     .navbar-nav {
-        transform: translateX(-50%);
+        /* transform: translateX(-50%); */
         width: 100vw !important;
-        margin-left: 42%;
+        /* margin-left: 42%; */
     }
     .search_input_box_ForumPage {
         width: 95%;
@@ -1823,6 +1835,10 @@ div[data-testid="otp-input-root"] input:focus {
     }
     .navbar-nav .nav-link {
         transform: translateY(-11px);
+    }
+    .nav-item {
+        margin-left: 5px;
+        margin-right: 5px;
     }
 }
 

@@ -7,7 +7,7 @@ import { getFlag } from '../API/LocalStore';
 import {getRemainsVisits} from '../API/Userapis';
 import Documentdetailppopup from '../popup/DocumentDetailPPopup';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import Newsitem from '../components/NewsItem';
+import ForumNewsItem from '../components/ForumNewsItem';
 
 
 const Companydetails = (props) => {
@@ -25,6 +25,9 @@ const Companydetails = (props) => {
     const [isDetailModalShow, setisDetailModalShow] = useState(true);
     const [ModalDocumentTitle, setModalDocumentTitle] = useState('');
     const [ModalDocumentDetails, setModalDocumentDetails] = useState('');
+    const [hasMoreNews, sethasMoreNews] = useState(false);
+    const [isNewsLoaded, setisNewsLoaded] = useState(false);
+    const [isYearsLoaded, setisYearsLoaded] = useState(false);
     const [News, setNews] = useState([]);
 
     const GoToDocumentView = (ref_url) =>{
@@ -43,6 +46,7 @@ const Companydetails = (props) => {
         window.scrollTo(0, 0);
         getCompanyYears(company_id).then(meta => {
             setCompanyYears(meta)
+            setisYearsLoaded(true);
             setSelectedYear(meta[0].year);
             getCompanyDocuments(company_id, meta[0].year, SelectedPeriod).then(meta => {
                 setCompanydocuments(meta)
@@ -82,6 +86,10 @@ const Companydetails = (props) => {
             setCompany_image(meta.image);
             setCompany_country(meta.Country);
             getFinancialNews(0, meta.Country, meta.SymbolTicker).then(metanews =>{
+                console.log("Length : "+metanews.data.length);
+                if(metanews.data.length>2)
+                sethasMoreNews(true);
+                setisNewsLoaded(true);
                 setNews(metanews.data.slice(0, 2));
             });    
         })
@@ -185,7 +193,7 @@ const Companydetails = (props) => {
                             <label className='labelasheading mt-1 ml-2'>Select Year</label><br/>   
                             <div className="yearSelectorDocument">
                                 
-                              {(CompanyYears.length==0)?(
+                              {(CompanyYears.length==0&&!isYearsLoaded)?(
                               <div className='d-flex'><Skeleton variant="rectangular"  width={70} style={{"borderRadius":"20px"}} height={30} /></div>
                              ):(CompanyYears.map(function (value, index, array) {
                                 return (
@@ -198,6 +206,10 @@ const Companydetails = (props) => {
                                 />)
                                 }))
                             }  
+                            {
+                                (isYearsLoaded&&CompanyYears.length==0)?(<span className='no_news_txt mt-0 ml-2'>Years records not available for this company.</span>):""
+                            }
+                        
                             </div>    
                              <Divider className='section_divider mt-3'/>   
                             <label className='labelasheading mt-1 ml-2'>Select Period</label><br/>
@@ -239,18 +251,23 @@ const Companydetails = (props) => {
                             <Divider className='section_divider mt-3'/> 
                             <label className='labelasheading mt-1 ml-2'>Related News</label><br/>
                             <div className="row">
-                                <div className="col">
+                                <div className="col-md-12">
                                     {
                                         News.map(function (value, index, array) {
                                             return (
-                                            <Newsitem size={3} title={value.source}
+                                                <ForumNewsItem size={12} title={value.source}
                                                 description={value.title}
-                                                created={value.created}
                                                 image={value.image_url}
+                                                created_at={value.created}
                                                 url_link={value.link}
                                                 key={index} />)
                                             })
                                     }
+                                     {(hasMoreNews&&isNewsLoaded)?( 
+                                            <div className='d-flex justify-content-center w-100'>
+                                            <Button onClick={()=>navigate('/companynews/'+company_id)} variant="text"><span style={{"textDecoration": "underline"}}>See More</span></Button>
+                                            </div>   
+                                        ):(((News.length==0)&&isNewsLoaded)?(<span className='no_news_txt mt-0 ml-2'>No news available</span>):<span className='no_news_txt mt-0 ml-2'>Loading News....</span>)}
                                 </div>
                             </div>
                             </Card>
@@ -281,8 +298,10 @@ const Companydetails = (props) => {
                                 </div>
                             </div>
                         </div>
+                        <div className="row mt-4">
+                        <div className="col-md-12"> 
                             <Grid container spacing={2}>
-                        {documents.map(function (value, index, array) {
+                            {documents.map(function (value, index, array) {
                             return (
                                 <Grid item xs={6} md={3} key={index}>
                                  <CardActionArea > 
@@ -311,7 +330,8 @@ const Companydetails = (props) => {
                                 )
                             })}
                             </Grid>
-                            
+                            </div>
+                            </div>
                             </Card>
                             
                       </div>
